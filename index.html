@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OUAT | Examination Management System 2025-26</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        
+        /* Your Custom Color Palette */
+        :root { 
+            --primary-green: #3B8B4B; 
+            --page-bg: #F1F8E9;
+            --white: #FFFFFF;
+        }
+        
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: var(--page-bg); 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        .bg-primary { background-color: var(--primary-green); }
+        .text-primary { color: var(--primary-green); }
+        
+        #resultModal { 
+            display: flex; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; 
+        }
+        
+        .modal-content { 
+            background-color: var(--white); padding: 35px; border-radius: 8px; width: 90%; max-width: 450px; 
+            text-align: center; border-top: 5px solid var(--primary-green); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hidden { display: none !important; }
+        table td, table th { border: 1px solid #dcedc8; padding: 12px; text-align: center; }
+        
+        .marksheet-paper { 
+            background-color: var(--white); border: 2px solid var(--primary-green); box-shadow: 0 0 20px rgba(0,0,0,0.05); border-radius: 8px;
+        }
+        
+        .btn-print {
+            background-color: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem 3rem;
+            border-radius: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s ease;
+            cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; margin: 0 auto;
+        }
+        .btn-print:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 15px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <div class="opacity-20 pointer-events-none select-none">
+        <header class="bg-primary text-white p-6"><h1 class="text-2xl font-bold">ODISHA UNIVERSITY OF AGRICULTURE AND TECHNOLOGY</h1></header>
+        <div class="p-20 text-center"><p class="text-4xl font-black mb-4 uppercase text-primary">Academic Records 2025-26</p></div>
+    </div>
+
+    <div id="resultModal">
+        <div class="modal-content">
+            <div class="flex justify-center mb-6">
+                <img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" alt="OUAT Logo" class="h-24 w-auto drop-shadow-md">
+            </div>
+            <h2 class="text-2xl font-bold text-primary mb-2">View Semester Result</h2>
+            <p class="text-xs text-gray-500 mb-6 uppercase tracking-widest font-semibold border-b border-gray-200 pb-2">Academic Session 2025-26</p>
+            
+            <div class="text-left mb-4">
+                <label class="block text-primary text-xs font-bold mb-1">Student Full Name</label>
+                <input type="text" id="inputName" class="w-full p-3 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-[#3B8B4B] outline-none transition-all" placeholder="Enter Full Name">
+            </div>
+            
+            <div class="text-left mb-6">
+                <label class="block text-primary text-xs font-bold mb-1">Admission No</label>
+                <input type="text" id="inputAdm" class="w-full p-3 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-[#3B8B4B] outline-none transition-all" placeholder="9 digit ID">
+            </div>
+            
+            <button onclick="handleLogin()" class="w-full bg-primary text-white font-bold py-4 rounded hover:opacity-90 transition shadow-md uppercase tracking-wider text-sm">Access Marksheet</button>
+            <p id="errorMsg" class="text-red-600 text-xs mt-3 font-bold hidden italic">Invalid Credentials. Record not found.</p>
+        </div>
+    </div>
+
+    <div id="marksheetPage" class="hidden min-h-screen p-4 md:p-10">
+        <div class="max-w-5xl mx-auto marksheet-paper p-8 md:p-12">
+            <div class="flex justify-center mb-6">
+                <img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" alt="OUAT Logo" class="h-28 w-auto">
+            </div>
+            <div class="text-center mb-10">
+                <h1 class="text-2xl md:text-3xl font-black text-primary uppercase leading-tight">COLLEGE OF AGRICULTURE, OUAT, BHUBANESWAR</h1>
+                <h2 class="text-lg font-bold text-gray-700 mt-2 border-t border-b border-gray-300 inline-block px-4 py-1">1st Year Semester I, B.Sc. (Hons.) Agriculture (2025-26)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-lg border-b border-gray-200 pb-6">
+                <p><strong>Candidate Name:</strong> <span id="resName" class="uppercase font-bold text-primary"></span></p>
+                <p><strong>Admission No:</strong> <span id="resAdm" class="font-bold"></span></p>
+                <p class="col-span-2"><strong>Course:</strong> Bachelor of Science (Honours) in Agriculture</p>
+            </div>
+            
+            <table class="w-full mb-10 text-sm md:text-base bg-white">
+                <thead><tr class="bg-primary text-white font-bold uppercase"><th>Course Code</th><th>Course Name</th><th>FM</th><th>OM</th><th>Grade</th></tr></thead>
+                <tbody id="marksBody"></tbody>
+            </table>
+            
+            <div class="flex justify-center">
+                <table class="w-full md:w-1/2 bg-white">
+                    <tr class="bg-primary text-white font-bold text-center"><td>Semester</td><td>GPA</td></tr>
+                    <tr><td>I</td><td id="sem1Gpa" class="font-bold text-primary"></td></tr>
+                    <tr><td>II</td><td>NA</td></tr><tr><td>III</td><td>NA</td></tr><tr><td>IV</td><td>NA</td></tr><tr><td>V</td><td>NA</td></tr><tr><td>VI</td><td>NA</td></tr><tr><td>VII</td><td>NA</td></tr><tr><td>VIII</td><td>NA</td></tr>
+                    <tr class="bg-[#e8f5e9] font-bold border-t-2 border-primary"><td>Cur. CGPA</td><td id="curCgpa" class="text-primary"></td></tr>
+                </table>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <button onclick="handlePrint()" class="btn-print">Print Marksheet</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const courses = [
+            { code: "AGR-111", name: "Fundamentals of Agronomy" }, { code: "AGR-112", name: "Intro to Forestry" },
+            { code: "SAC-111", name: "Fundamentals of Soil Science" }, { code: "FHT-111", name: "Fundamentals of Horticulture" },
+            { code: "EXE-111", name: "Rural Sociology & Psychology" }, { code: "EXE-112", name: "Educational Psychology" }
+        ];
+
+        const students = [
+            { name: "Amit Bishoyi", adm: "251210193", marks: [92,96,84,91,96,94] },
+            { name: "Om Prasad Behera", adm: "251210194", marks: [90,94,83,88,94,92] },
+            { name: "Satyabrat Rout", adm: "251210195", marks: [98,92,81,89,96,95] },
+            { name: "Chandan Behera", adm: "251210197", marks: [34,42,39,51,69,67] },
+            { name: "Aditya Kujur", adm: "251210201", marks: [99,96,93,98,95,97] },
+            { name: "Biswanath Biswal", adm: "251210220", marks: [34,36,31,42,52,57] },
+            { name: "Swagatika Pradhan", adm: "251210221", marks: [39,42,32,46,58,61] },
+            { name: "Swayamprava Ray", adm: "251210222", marks: [35,43,29,41,58,56] },
+            { name: "Satyasundar Bhole", adm: "251210223", marks: [99,94,91,93,98,96] },
+            { name: "Bhagyashree Samantaray", adm: "251210225", marks: [39,32,30,41,45,43] },
+            { name: "Chinmaya Prasad Rana", adm: "251210226", marks: [38,33,31,40,44,44] },
+            { name: "Nishant Raj", adm: "251210234", marks: [99,94,89,88,98,95] },
+            { name: "Abhilipsa Dhall", adm: "251210240", marks: [94,92,88,95,96,93] },
+            { name: "Shiv Narayan Mishra", adm: "251210242", marks: [42,44,39,51,55,62] },
+            { name: "Shubhangi", adm: "251210243", marks: [89,86,72,82,92,91] },
+            { name: "Priti Soumya Bagarti", adm: "251210257", marks: [96,93,88,94,95,96] },
+            { name: "Ananya Dash", adm: "251210260", marks: [83,86,80,93,96,88] },
+            { name: "Himanshu Mahanty", adm: "251210209", marks: [92,90,89,93,95,92] },
+            { name: "Debasis Mohanty", adm: "251210212", marks: [61,63,53,67,71,75] },
+            { name: "Hitesh Kumar Pradhan", adm: "251210211", marks: [62,61,55,67,72,75] }
+        ];
+
+        function getSimilarity(s1, s2) {
+            s1 = s1.toLowerCase(); s2 = s2.toLowerCase();
+            if (s1 === s2) return 1.0;
+            let longer = s1.length > s2.length ? s1 : s2;
+            let shorter = s1.length > s2.length ? s2 : s1;
+            let costs = new Array();
+            for (let i = 0; i <= s1.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s2.length; j++) {
+                    if (i == 0) costs[j] = j;
+                    else if (j > 0) {
+                        let newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1)) newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        costs[j - 1] = lastValue; lastValue = newValue;
+                    }
+                }
+                if (i > 0) costs[s2.length] = lastValue;
+            }
+            return (longer.length - costs[s2.length]) / longer.length;
+        }
+
+        function handleLogin() {
+            const rawName = document.getElementById('inputName').value.trim();
+            const admNo = document.getElementById('inputAdm').value.trim();
+            const student = students.find(s => getSimilarity(s.name, rawName) >= 0.7 && s.adm === admNo);
+            if (student) renderMarksheet(student);
+            else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+                setTimeout(() => document.getElementById('errorMsg').classList.add('hidden'), 3000);
+            }
+        }
+
+        function renderMarksheet(student) {
+            document.getElementById('resultModal').classList.add('hidden');
+            document.getElementById('marksheetPage').classList.remove('hidden');
+            document.getElementById('resName').innerText = student.name;
+            document.getElementById('resAdm').innerText = student.adm;
+            let displayMarks = student.marks || courses.map(() => Math.floor(72 + Math.random() * 16));
+            const body = document.getElementById('marksBody');
+            body.innerHTML = ""; let total = 0;
+            displayMarks.forEach((m, idx) => {
+                total += m;
+                const grade = m >= 90 ? "O" : m >= 80 ? "A+" : m >= 70 ? "A" : m >= 60 ? "B+" : "B";
+                body.innerHTML += `<tr><td class="font-bold text-primary">${courses[idx].code}</td><td class="text-left">${courses[idx].name}</td><td>100</td><td class="font-bold text-green-800">${m}</td><td class="font-bold">${grade}</td></tr>`;
+            });
+            const gpa = (total / 6 / 10).toFixed(2);
+            document.getElementById('sem1Gpa').innerText = gpa;
+            document.getElementById('curCgpa').innerText = gpa;
+        }
+
+        function handlePrint() { window.location.href = "https://youtu.be/Aq5WXmQQooo"; }
+    </script>
+</body>
+</html>
