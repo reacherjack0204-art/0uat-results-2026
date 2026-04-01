@@ -7,112 +7,62 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-        
-        /* Your Custom Color Palette */
-        :root { 
-            --primary-green: #3B8B4B; 
-            --page-bg: #F1F8E9;
-            --white: #FFFFFF;
-        }
-        
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            background-color: var(--page-bg); 
-            margin: 0; 
-            padding: 0; 
-        }
-        
+        :root { --primary-green: #3B8B4B; --page-bg: #F1F8E9; --white: #FFFFFF; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--page-bg); margin: 0; padding: 0; }
         .bg-primary { background-color: var(--primary-green); }
         .text-primary { color: var(--primary-green); }
-        
-        #resultModal { 
-            display: flex; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; 
-            background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; 
-        }
-        
-        .modal-content { 
-            background-color: var(--white); padding: 35px; border-radius: 8px; width: 90%; max-width: 450px; 
-            text-align: center; border-top: 5px solid var(--primary-green); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        
+        #resultModal { display: flex; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; }
+        .modal-content { background-color: var(--white); padding: 35px; border-radius: 8px; width: 90%; max-width: 450px; text-align: center; border-top: 5px solid var(--primary-green); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
         .hidden { display: none !important; }
         table td, table th { border: 1px solid #dcedc8; padding: 12px; text-align: center; }
-        
-        .marksheet-paper { 
-            background-color: var(--white); border: 2px solid var(--primary-green); box-shadow: 0 0 20px rgba(0,0,0,0.05); border-radius: 8px;
-        }
-        
-        .btn-print {
-            background-color: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem 3rem;
-            border-radius: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s ease;
-            cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; margin: 0 auto;
-        }
-        .btn-print:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 15px rgba(0,0,0,0.2); }
+        .marksheet-paper { background-color: var(--white); border: 2px solid var(--primary-green); box-shadow: 0 0 20px rgba(0,0,0,0.05); border-radius: 8px; }
+        .btn-print { background-color: var(--primary-green); color: var(--white); font-weight: bold; padding: 1rem 3rem; border-radius: 0.25rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
     </style>
 </head>
 <body>
 
-    <div class="opacity-20 pointer-events-none select-none">
-        <header class="bg-primary text-white p-6"><h1 class="text-2xl font-bold">ODISHA UNIVERSITY OF AGRICULTURE AND TECHNOLOGY</h1></header>
-        <div class="p-20 text-center"><p class="text-4xl font-black mb-4 uppercase text-primary">Academic Records 2025-26</p></div>
-    </div>
-
     <div id="resultModal">
         <div class="modal-content">
             <div class="flex justify-center mb-6">
-                <img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" alt="OUAT Logo" class="h-24 w-auto drop-shadow-md">
+                <img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" alt="OUAT Logo" class="h-24 w-auto">
             </div>
             <h2 class="text-2xl font-bold text-primary mb-2">View Semester Result</h2>
             <p class="text-xs text-gray-500 mb-6 uppercase tracking-widest font-semibold border-b border-gray-200 pb-2">Academic Session 2025-26</p>
-            
             <div class="text-left mb-4">
                 <label class="block text-primary text-xs font-bold mb-1">Student Full Name</label>
-                <input type="text" id="inputName" class="w-full p-3 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-[#3B8B4B] outline-none transition-all" placeholder="Enter Full Name">
+                <input type="text" id="inputName" class="w-full p-3 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-[#3B8B4B]" placeholder="Enter Full Name">
             </div>
-            
             <div class="text-left mb-6">
                 <label class="block text-primary text-xs font-bold mb-1">Admission No</label>
-                <input type="text" id="inputAdm" class="w-full p-3 border border-gray-300 rounded bg-gray-50 focus:ring-2 focus:ring-[#3B8B4B] outline-none transition-all" placeholder="9 digit ID">
+                <input type="text" id="inputAdm" class="w-full p-3 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-[#3B8B4B]" placeholder="9 digit ID">
             </div>
-            
-            <button onclick="handleLogin()" class="w-full bg-primary text-white font-bold py-4 rounded hover:opacity-90 transition shadow-md uppercase tracking-wider text-sm">Access Marksheet</button>
+            <button onclick="handleLogin()" class="w-full bg-primary text-white font-bold py-4 rounded uppercase tracking-wider text-sm">Access Marksheet</button>
             <p id="errorMsg" class="text-red-600 text-xs mt-3 font-bold hidden italic">Invalid Credentials. Record not found.</p>
         </div>
     </div>
 
     <div id="marksheetPage" class="hidden min-h-screen p-4 md:p-10">
         <div class="max-w-5xl mx-auto marksheet-paper p-8 md:p-12">
-            <div class="flex justify-center mb-6">
-                <img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" alt="OUAT Logo" class="h-28 w-auto">
-            </div>
+            <div class="flex justify-center mb-6"><img src="https://upload.wikimedia.org/wikipedia/en/1/1a/Odisha_University_of_Agriculture_and_Technology_logo.png" class="h-28 w-auto"></div>
             <div class="text-center mb-10">
-                <h1 class="text-2xl md:text-3xl font-black text-primary uppercase leading-tight">COLLEGE OF AGRICULTURE, OUAT, BHUBANESWAR</h1>
+                <h1 class="text-2xl md:text-3xl font-black text-primary uppercase">COLLEGE OF AGRICULTURE, OUAT</h1>
                 <h2 class="text-lg font-bold text-gray-700 mt-2 border-t border-b border-gray-300 inline-block px-4 py-1">1st Year Semester I, B.Sc. (Hons.) Agriculture (2025-26)</h2>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-lg border-b border-gray-200 pb-6">
                 <p><strong>Candidate Name:</strong> <span id="resName" class="uppercase font-bold text-primary"></span></p>
                 <p><strong>Admission No:</strong> <span id="resAdm" class="font-bold"></span></p>
-                <p class="col-span-2"><strong>Course:</strong> Bachelor of Science (Honours) in Agriculture</p>
             </div>
-            
-            <table class="w-full mb-10 text-sm md:text-base bg-white">
+            <table class="w-full mb-10 bg-white">
                 <thead><tr class="bg-primary text-white font-bold uppercase"><th>Course Code</th><th>Course Name</th><th>FM</th><th>OM</th><th>Grade</th></tr></thead>
                 <tbody id="marksBody"></tbody>
             </table>
-            
             <div class="flex justify-center">
                 <table class="w-full md:w-1/2 bg-white">
-                    <tr class="bg-primary text-white font-bold text-center"><td>Semester</td><td>GPA</td></tr>
-                    <tr><td>I</td><td id="sem1Gpa" class="font-bold text-primary"></td></tr>
-                    <tr><td>II</td><td>NA</td></tr><tr><td>III</td><td>NA</td></tr><tr><td>IV</td><td>NA</td></tr><tr><td>V</td><td>NA</td></tr><tr><td>VI</td><td>NA</td></tr><tr><td>VII</td><td>NA</td></tr><tr><td>VIII</td><td>NA</td></tr>
-                    <tr class="bg-[#e8f5e9] font-bold border-t-2 border-primary"><td>Cur. CGPA</td><td id="curCgpa" class="text-primary"></td></tr>
+                    <tr class="bg-primary text-white font-bold"><td>Semester I GPA</td><td id="sem1Gpa"></td></tr>
+                    <tr class="bg-[#e8f5e9] font-bold"><td>Current CGPA</td><td id="curCgpa"></td></tr>
                 </table>
             </div>
-            
-            <div class="mt-12 text-center">
-                <button onclick="handlePrint()" class="btn-print">Print Marksheet</button>
-            </div>
+            <div class="mt-12 text-center"><button onclick="window.location.href='https://youtu.be/Aq5WXmQQooo'" class="btn-print">Print Marksheet</button></div>
         </div>
     </div>
 
@@ -127,50 +77,84 @@
             { name: "Amit Bishoyi", adm: "251210193", marks: [92,96,84,91,96,94] },
             { name: "Om Prasad Behera", adm: "251210194", marks: [90,94,83,88,94,92] },
             { name: "Satyabrat Rout", adm: "251210195", marks: [98,92,81,89,96,95] },
+            { name: "Priyadarshini Pritiprava Behera", adm: "251210196", marks: [88,85,82,89,90,87] },
             { name: "Chandan Behera", adm: "251210197", marks: [34,42,39,51,69,67] },
+            { name: "Mimosha Seth", adm: "251210198", marks: [82,78,85,81,79,83] },
+            { name: "Swarnalata Hansda", adm: "251210199", marks: [85,88,82,84,87,86] },
+            { name: "Sanskriti Singh", adm: "251210200", marks: [91,89,92,88,90,91] },
             { name: "Aditya Kujur", adm: "251210201", marks: [99,96,93,98,95,97] },
+            { name: "Subhasmita Sahoo", adm: "251210202", marks: [84,82,86,81,85,83] },
+            { name: "Suman Mahapatra", adm: "251210203", marks: [87,85,89,86,88,87] },
+            { name: "Baishnobi Paikaray", adm: "251210204", marks: [81,83,79,82,80,82] },
+            { name: "Akshurna Barik", adm: "251210205", marks: [88,90,87,89,88,89] },
+            { name: "Rutuparna Pradhan", adm: "251210206", marks: [83,81,84,82,83,82] },
+            { name: "Namita Nayak", adm: "251210207", marks: [86,84,87,85,86,85] },
+            { name: "Himanshu Mahanty", adm: "251210209", marks: [92,90,89,93,95,92] },
+            { name: "Hitesh Kumar Pradhan", adm: "251210211", marks: [62,61,55,67,72,75] },
+            { name: "Debasis Mohanty", adm: "251210212", marks: [61,63,53,67,71,75] },
+            { name: "Hansita Patel", adm: "251210213", marks: [89,87,90,88,89,88] },
+            { name: "Satya Prakash Subudhi", adm: "251210214", marks: [82,84,81,83,82,83] },
+            { name: "Bhumika Swain", adm: "251210215", marks: [90,92,88,91,90,91] },
+            { name: "Sradhanjali Mallick", adm: "251210216", marks: [85,83,86,84,85,84] },
+            { name: "Aliva Sahoo", adm: "251210217", marks: [87,89,86,88,87,88] },
+            { name: "Sunandan Pradhan", adm: "251210218", marks: [81,79,82,80,81,80] },
+            { name: "Snehasis Kundu", adm: "251210219", marks: [88,86,89,87,88,87] },
             { name: "Biswanath Biswal", adm: "251210220", marks: [34,36,31,42,52,57] },
             { name: "Swagatika Pradhan", adm: "251210221", marks: [39,42,32,46,58,61] },
             { name: "Swayamprava Ray", adm: "251210222", marks: [35,43,29,41,58,56] },
             { name: "Satyasundar Bhole", adm: "251210223", marks: [99,94,91,93,98,96] },
+            { name: "Sai Prasad Pradhan", adm: "251210224", marks: [84,86,83,85,84,85] },
             { name: "Bhagyashree Samantaray", adm: "251210225", marks: [39,32,30,41,45,43] },
             { name: "Chinmaya Prasad Rana", adm: "251210226", marks: [38,33,31,40,44,44] },
+            { name: "Sushanta Kumar Mallik", adm: "251210227", marks: [86,88,85,87,86,87] },
+            { name: "Subham Acharya", adm: "251210228", marks: [83,81,84,82,83,82] },
+            { name: "Subhransu Kuanr", adm: "251210229", marks: [89,91,88,90,89,90] },
+            { name: "Sibaram Behera", adm: "251210230", marks: [82,80,83,81,82,81] },
+            { name: "Lipsa Nayak", adm: "251210231", marks: [87,85,88,86,87,86] },
+            { name: "Bhagabata Mahuria", adm: "251210232", marks: [81,83,80,82,81,82] },
+            { name: "Sayandeep Hudati", adm: "251210233", marks: [88,90,87,89,88,89] },
             { name: "Nishant Raj", adm: "251210234", marks: [99,94,89,88,98,95] },
+            { name: "Mamraj Regar", adm: "251210235", marks: [83,85,82,84,83,84] },
+            { name: "Nutan Prachi Kisan", adm: "251210236", marks: [86,84,87,85,86,85] },
+            { name: "Deepanjali Munda", adm: "251210237", marks: [82,84,81,83,82,83] },
+            { name: "Sri Pompy Boro", adm: "251210238", marks: [89,87,90,88,89,88] },
+            { name: "Supratik Malakar", adm: "251210239", marks: [84,82,85,83,84,83] },
             { name: "Abhilipsa Dhall", adm: "251210240", marks: [94,92,88,95,96,93] },
+            { name: "Arun Kumar Sahu", adm: "251210241", marks: [87,89,86,88,87,88] },
             { name: "Shiv Narayan Mishra", adm: "251210242", marks: [42,44,39,51,55,62] },
             { name: "Shubhangi", adm: "251210243", marks: [89,86,72,82,92,91] },
+            { name: "Prabina Prusty", adm: "251210244", marks: [83,81,84,82,83,82] },
+            { name: "Diptesh Kumar Patel", adm: "251210245", marks: [86,88,85,87,86,87] },
+            { name: "Ipsita Priyadarshini", adm: "251210246", marks: [88,90,87,89,88,89] },
+            { name: "Satyajit Sahoo", adm: "251210247", marks: [82,80,83,81,82,81] },
+            { name: "Goutami Manjari Nag", adm: "251210248", marks: [87,85,88,86,87,86] },
+            { name: "Bubun Sahoo", adm: "251210249", marks: [81,83,80,82,81,82] },
+            { name: "Sangram Keshari Behera", adm: "251210250", marks: [89,87,90,88,89,88] },
+            { name: "Shyam Sundar Shaw", adm: "251210251", marks: [84,82,85,83,84,83] },
+            { name: "Fatimama Sarrat", adm: "251210252", marks: [86,84,87,85,86,85] },
+            { name: "Raj Ranu Patel", adm: "251210253", marks: [83,85,82,84,83,84] },
+            { name: "Ritik Raj", adm: "251210254", marks: [88,90,87,89,88,89] },
+            { name: "Abhishek Kumar", adm: "251210255", marks: [82,84,81,83,82,83] },
+            { name: "Aditya Anshuman", adm: "251210256", marks: [89,87,90,88,89,88] },
             { name: "Priti Soumya Bagarti", adm: "251210257", marks: [96,93,88,94,95,96] },
+            { name: "Pattajoshi Preetibardhan Mahapatra", adm: "251210258", marks: [84,82,85,83,84,83] },
+            { name: "Alisha Kuanar", adm: "251210259", marks: [87,85,88,86,87,86] },
             { name: "Ananya Dash", adm: "251210260", marks: [83,86,80,93,96,88] },
-            { name: "Himanshu Mahanty", adm: "251210209", marks: [92,90,89,93,95,92] },
-            { name: "Debasis Mohanty", adm: "251210212", marks: [61,63,53,67,71,75] },
-            { name: "Hitesh Kumar Pradhan", adm: "251210211", marks: [62,61,55,67,72,75] }
+            { name: "Sthitaprajna Garnayak", adm: "251210261", marks: [89,87,90,88,89,88] },
+            { name: "Vaibhav Ranjan", adm: "251210262", marks: [82,84,81,83,82,83] },
+            { name: "Shruti Sulagna Dash", adm: "251210263", marks: [86,84,87,85,86,85] },
+            { name: "Ompriya Sarangi", adm: "251210264", marks: [83,85,82,84,83,84] },
+            { name: "Sneha Sohani", adm: "251210265", marks: [88,90,87,89,88,89] },
+            { name: "Rishika Kumari", adm: "251210266", marks: [82,84,81,83,82,83] },
+            { name: "Arghadeep Pahari", adm: "251210267", marks: [89,87,90,88,89,88] },
+            { name: "Nitish Kumar Pradhan", adm: "251210268", marks: [84,82,85,83,84,83] },
+            { name: "Saloni Khuntia", adm: "251210269", marks: [86,84,87,85,86,85] }
         ];
 
-        function getSimilarity(s1, s2) {
-            s1 = s1.toLowerCase(); s2 = s2.toLowerCase();
-            if (s1 === s2) return 1.0;
-            let longer = s1.length > s2.length ? s1 : s2;
-            let shorter = s1.length > s2.length ? s2 : s1;
-            let costs = new Array();
-            for (let i = 0; i <= s1.length; i++) {
-                let lastValue = i;
-                for (let j = 0; j <= s2.length; j++) {
-                    if (i == 0) costs[j] = j;
-                    else if (j > 0) {
-                        let newValue = costs[j - 1];
-                        if (s1.charAt(i - 1) != s2.charAt(j - 1)) newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                        costs[j - 1] = lastValue; lastValue = newValue;
-                    }
-                }
-                if (i > 0) costs[s2.length] = lastValue;
-            }
-            return (longer.length - costs[s2.length]) / longer.length;
-        }
-
         function handleLogin() {
-            const rawName = document.getElementById('inputName').value.trim();
+            const rawName = document.getElementById('inputName').value.trim().toLowerCase();
             const admNo = document.getElementById('inputAdm').value.trim();
-            const student = students.find(s => getSimilarity(s.name, rawName) >= 0.7 && s.adm === admNo);
+            const student = students.find(s => s.name.toLowerCase() === rawName && s.adm === admNo);
             if (student) renderMarksheet(student);
             else {
                 document.getElementById('errorMsg').classList.remove('hidden');
@@ -183,20 +167,17 @@
             document.getElementById('marksheetPage').classList.remove('hidden');
             document.getElementById('resName').innerText = student.name;
             document.getElementById('resAdm').innerText = student.adm;
-            let displayMarks = student.marks || courses.map(() => Math.floor(72 + Math.random() * 16));
             const body = document.getElementById('marksBody');
             body.innerHTML = ""; let total = 0;
-            displayMarks.forEach((m, idx) => {
+            student.marks.forEach((m, idx) => {
                 total += m;
                 const grade = m >= 90 ? "O" : m >= 80 ? "A+" : m >= 70 ? "A" : m >= 60 ? "B+" : "B";
-                body.innerHTML += `<tr><td class="font-bold text-primary">${courses[idx].code}</td><td class="text-left">${courses[idx].name}</td><td>100</td><td class="font-bold text-green-800">${m}</td><td class="font-bold">${grade}</td></tr>`;
+                body.innerHTML += `<tr><td class="font-bold text-primary">${courses[idx].code}</td><td>${courses[idx].name}</td><td>100</td><td class="font-bold text-green-800">${m}</td><td class="font-bold">${grade}</td></tr>`;
             });
             const gpa = (total / 6 / 10).toFixed(2);
             document.getElementById('sem1Gpa').innerText = gpa;
             document.getElementById('curCgpa').innerText = gpa;
         }
-
-        function handlePrint() { window.location.href = "https://youtu.be/Aq5WXmQQooo"; }
     </script>
 </body>
 </html>
